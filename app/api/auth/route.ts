@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   const clientId = process.env.GITHUB_OAUTH_CLIENT_ID;
   const redirectUri = `${request.nextUrl.origin}/api/callback`;
-  const scope = "repo,user";
+  const scope = "repo user";
 
   if (!clientId) {
     return new NextResponse(
