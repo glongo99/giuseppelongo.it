@@ -1,0 +1,31 @@
+backend:
+  name: github
+  repo: glongo99/giuseppelongo.it
+  branch: main
+  # Sostituisci con l'URL reale del tuo sito online (quello che usi per
+  # visitarlo: .vercel.app oppure il tuo dominio personalizzato).
+  base_url: https://sostituisci-con-il-tuo-url.vercel.app
+  auth_endpoint: api/auth
+
+media_folder: "public/scritti/media"
+public_folder: "/scritti/media"
+
+collections:
+  - name: "scritti"
+    label: "Scritti"
+    label_singular: "Scritto"
+    folder: "content/scritti"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titolo", name: "titolo", widget: "string" }
+      - {
+          label: "Data",
+          name: "data",
+          widget: "datetime",
+          format: "YYYY-MM-DD",
+          date_format: "YYYY-MM-DD",
+          time_format: false,
+        }
+      - { label: "Estratto", name: "estratto", widget: "text" }
+      - { label: "Contenuto", name: "body", widget: "markdown" }
