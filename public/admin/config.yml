@@ -4,7 +4,7 @@ backend:
   branch: main
   # Sostituisci con l'URL reale del tuo sito online (quello che usi per
   # visitarlo: .vercel.app oppure il tuo dominio personalizzato).
-  base_url: giuseppelongo-it.vercel.app
+  base_url: https://giuseppelongo-it.vercel.app
   auth_endpoint: api/auth
 
 media_folder: "public/scritti/media"
