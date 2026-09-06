@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
+  console.log(
+    "[api/callback] chiamata ricevuta:",
+    new Date().toISOString(),
+    "code:",
+    code ? code.slice(0, 8) + "..." : "MANCANTE",
+  );
   const clientId = process.env.GITHUB_OAUTH_CLIENT_ID;
   const clientSecret = process.env.GITHUB_OAUTH_CLIENT_SECRET;
 
@@ -24,11 +30,16 @@ export async function GET(request: NextRequest) {
         client_id: clientId,
         client_secret: clientSecret,
         code,
+        redirect_uri: `${request.nextUrl.origin}/api/callback`,
       }),
     },
   );
 
   const tokenData = await tokenResponse.json();
+  console.log(
+    "[api/callback] risposta GitHub:",
+    tokenData.error ? `errore: ${tokenData.error}` : "token ricevuto ok",
+  );
 
   // Questo script comunica il risultato alla finestra del CMS che ha aperto
   // il popup di login (protocollo atteso da Decap CMS).
@@ -57,7 +68,7 @@ export async function GET(request: NextRequest) {
       (function() {
         function receiveMessage(e) {
           window.opener.postMessage(
-            'authorization:github:success:${JSON.stringify(tokenData)}',
+            'authorization:github:success:${JSON.stringify({ token: tokenData.access_token, provider: "github" })}',
             e.origin
           );
           window.removeEventListener("message", receiveMessage, false);
